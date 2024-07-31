@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Guía de Implementar Clúster</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#intro" class="w3-bar-item w3-button w3-padding-large w3-white">Introducción</a>
+    <a href="#link1" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Comunicación entre los nodos</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Configuración de Slurm</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Procesos en segundo plano de Slurm</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Configuración de MPI</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Comunicación entre los nodos</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Configuración de Slurm</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Procesos en segundo plano de Slurm</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Configuración de MPI</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-red w3-center" style="padding:128px 16px" id="intro">
+  <h1 class="w3-margin w3-jumbo" >Guía para Implementar Clúster</h1>
+  <p class="w3-xlarge">Lainer F. Donet Vasconcellos</p>
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Introdución</h1>
+      <!-- <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5> -->
+      <p class="w3-text-grey">
+        Vamos a examinar algunas de las posibles cuestiones que puedan estar fallando en la ejecución del clúster y malogrando la ejecución de las tareas en paralelo en cada uno de los nodos. Con este propósito lo primero a considerar son las posibles causas.
+      </p>
+      <p class="w3-text-grey">
+        Puedo prever 4 posibles factores:
+      </p>
+      <ul class="w3-text-grey">
+        <li>Comunicación entre los nodos.</li>
+        <li>Configuración de Slurm</li>
+        <li>Estado del los procesos en segundo plano de Slurm</li>
+        <li>Configuración de MPI</li>
+      </ul>
+      <p class="w3-text-grey">
+        Con el objetivo de establecer qué no está funcionando correctamente, se implementó este tutorial basado en las cuatro anteriores causas.
+      </p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-university w3-padding-64 w3-text-red" style="font-size:180px"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" id="link1">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-tasks w3-padding-64 w3-text-red w3-margin-right" style="font-size:180px"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1 >Comunicación entre los nodos</h1>
+      <!-- <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5> -->
+
+      <p class="w3-text-grey">
+        La configuración de una buena comunicación entre los nodos de un clúster de alto rendimiento es fundamental para maximizar la eficiencia y el rendimiento del sistema. Una comunicación efectiva permite la transferencia rápida y segura de datos entre los nodos, lo que es esencial para tareas que requieren procesamiento paralelo y distribución de cargas de trabajo. Sin una comunicación adecuada, los nodos podrían experimentar latencias significativas, lo que afectaría negativamente el rendimiento general del clúster. Además, una configuración de red bien diseñada puede prevenir cuellos de botella y asegurar que los recursos del clúster se utilicen de manera óptima.
+      </p>
+      <p class="w3-text-grey">
+        Otra razón importante para implementar una buena comunicación entre los nodos es la resiliencia y la capacidad de recuperación del clúster. En un entorno de alto rendimiento, es crucial que los nodos puedan comunicarse de manera eficiente para coordinar la redundancia y la recuperación ante fallos. Esto asegura que, en caso de que un nodo falle, otros nodos puedan asumir su carga de trabajo sin interrupciones valiosas. 
+      </p>
+      <p class="w3-text-grey">
+        La comunicación entre los nodos se realiza mediante conexiones <code class="mi_code">ssh</code> utilizando el puerto 22. Es importante asegurarse que el puerto 22 esté abierto. Para asegurarte de que el puerto 22 está abierto para conexiones <code class="mi_code">ssh</code> en GNU/Linux, puedes seguir estos pasos:
+      </p>
+      <p class="w3-text-grey">
+        Usar <code class="mi_code">nc</code>(netcat):
+      </p>
+      <code class="mi_code">nc -zv dirección_ip 22</code>
+      <p class="w3-text-grey">
+        Si el puerto está abierto, verás un mensaje indicando que la conexión se ha establecido correctamente. Si está cerrado, recibirás un mensaje de error
+      </p>
+      <p class="w3-text-grey">
+        Usar <code class="mi_code">telnet</code>:
+      </p>
+      <code class="mi_code">telnet dirección_ip 22</code>
+      <p class="w3-text-grey">
+        Si el puerto está abierto, verás una pantalla en blanco o un mensaje de bienvenida del servidor SSH. Si está cerrado, recibirás un mensaje de error.
+      </p>
+      <p class="w3-text-grey">
+        Usar <code class="mi_code">ss</code> o <code class="mi_code">netstat</code>:
+      </p>
+      <code class="mi_code">sudo ss -tuln | grep :22</code>
+      <p class="w3-text-grey">o</p>
+      <code class="mi_code">sudo netstat -tuln | grep :22</code>
+      <p class="w3-text-grey">
+        Estos comandos te mostrarán si el puerto 22 está en escucha en tu máquina local
+      </p>
+      <p class="w3-text-grey">
+        Verificar la configuración del firewall para asegúrate de que el firewall permite conexiones al puerto 22. Por ejemplo, en <code class="midcode">ufw</code>:
+
+      </p>
+      <code class="mi_code">sudo ufw status</code>
+      <p class="w3-text-grey">
+        Deberías ver una línea que indique el puerto 22 esta permitido:
+      </p>
+      <code class="mi_code">22/tcp     ALLOW      AnyWhere</code>
+      <p class="w3-text-grey">
+        Después determinar el estado de los puertos para la conexión ssh veremos cómo configurar el servicio ssh en cada uno de los nodos
+      </p>
+      <h5 class="w3-padding-32">Configuración de SSH:</h5>
+      <ol class="w3-text-grey">
+        <li>Instala SSH en todos los nodos:
+            <p><code class="mi_code">sudo apt install openssh-server</code></p>
+        </li>
+        <li> Configura las claves SSH para acceso sin contraseña entre los nodos:
+            <p><code class="mi_code">ssh-keygen -t rsa</code></p>
+            <p class="w3-text-grey">
+                El comando <code class="mi_code">ssh-keygen -t rsa</code> se utiliza para generar un par de claves SSH (una clave pública y una clave privada) utilizando el algoritmo RSA.  La opción <code class="mi_code">-t rsa</code> indica que se debe usar el algoritmo RSA para generar las claves. RSA es uno de los algoritmos más comunes y seguros para la autenticación SSH.
+
+            </p>
+        </li>
+      </ol>
+      <h5 class="w3-padding-32">Comprobar la comunicación entre los nodos</h5>
+      <p class="w3-text-grey">
+        Después se copiará la clave pública a cada uno de los nodos del cluster con el comando:
+      </p>
+      <p><code class="mi_code">ssh-copy-id usuario@nodoremoto</code></p>
+      <p class="w3-text-grey">Para verificar que el servicio ssh está bien configurado entre los nodos que constituyen el clúster, ejecute ssh:</p>
+      <p><code class="mi_code">ssh usuario@nodo</code></p>
+      <p class="w3-text-grey">La conexión se debe establecer sin requerir contraseña</p>
+    </div>
+  </div>
+</div>
+
+<!-- Tercer Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container" id="link2">
+    <div class="w3-content">
+      <div class="w3-twothird">
+        <h1> Configuración de Slurm</h1>
+        <!-- <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5> -->
+        <p class="w3-text-grey">
+          Vamos a examinar algunas de las posibles cuestiones que puedan estar fallando en la ejecución del clúster y malogrando la ejecución de las tareas en paralelo en cada uno de los nodos. Con este propósito lo primero a considerar son las posibles causas.
+        </p>
+        <p class="w3-text-grey">
+          Puedo prever 4 posibles factores:
+        </p>
+        <ul class="w3-text-grey">
+          <li>Comunicación entre los nodos.</li>
+          <li>Configuración de Slurm</li>
+          <li>Estado del los procesos en segundo plano de Slurm</li>
+          <li>Configuración de MPI</li>
+        </ul>
+        <p class="w3-text-grey">
+          Con el objetivo de establecer qué no está funcionando correctamente, se implementó este tutorial basado en las cuatro anteriores causas.
+        </p>
+      </div>
+  
+      <div class="w3-third w3-center">
+        <i class="fa fa-wrench w3-padding-64 w3-text-red" style="font-size:180px"></i>
+      </div>
+    </div>
+  </div>
+
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    <h1 class="w3-margin w3-xlarge">Fin del Tutorial</h1>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
+  <div class="w3-xlarge w3-padding-32">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+ </div>
+ <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+
+</body>
+</html>
