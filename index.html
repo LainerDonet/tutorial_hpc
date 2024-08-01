@@ -62,7 +62,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         <li>Configuración de MPI</li>
       </ul>
       <p class="w3-text-grey">
-        Con el objetivo de establecer qué no está funcionando correctamente, se implementó este tutorial basado en las cuatro anteriores causas.
+        Con el objetivo de establecer, qué no está funcionando correctamente, se implementó este tutorial basado en las cuatro anteriores causas.
       </p>
     </div>
 
@@ -185,7 +185,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
           Entiéndase por particiones, no el concepto de particiones de discos duro o RAIDs o LVM, etc (Sistemas de almacenamiento); sino el concepto que maneja SLURM que no es más que agrupación de nodos.
         </p>
         <p class="w3-text-grey">
-          Como Slurm es un servicio que corre en segundo plano, hay que iniciar y habilitar los procesos de Slurm en el nodo principal y en cada uno de los nodos. Con la linea de comando:
+          Como Slurm es un servicio que corre en segundo plano, hay que iniciar y habilitar los procesos de Slurm en el nodo principal y en cada uno de los nodos. Con la línea de comando:
         </p>
         <p><code class="mi_code">sudo systemctl start slurmctld</code></p>
         <p><code class="mi_code">sudo systemctl enable slurmctld</code></p>
@@ -209,8 +209,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
     <div class="w3-twothird">
       <h1>Estado del los procesos en segundo plano de Slurm</h1>
-      <!-- <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5> -->
-
       <p class="w3-text-grey">
         Para comprobar si Slurm está corriendo en segundo plano en un sistema GNU/Linux, puedes utilizar varios comandos. Aquí te dejo algunos métodos útiles:
       </p>
@@ -250,7 +248,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       </ol>
       <h5 class="w3-padding-32">Comprobar ejecución</h5>
       <p class="w3-text-grey">
-        Para comprobar el funcionando del cluster realizarás la tarea de correr un pequeño programa, Hola mundo, programado de C con paradigma de programación en paralelo para comprobar que se esta ejecutado en todos los nodos. 
+        Para comprobar el funcionando del cluster realizarás la tarea de correr un pequeño programa. Hola mundo, programado de C con paradigma de programación en paralelo para comprobar que se esta ejecutado en todos los nodos. 
       </p>
       <p class="w3-text-grey">
         Crea un script de prueba(test_mpi.c):
@@ -274,7 +272,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         Compila y ejecuta el script:
       </p>
       <p><code class="mi_code">mpicc -o test_mpi test_mpi.c</code></p>
-      <p><code class="mi_code">mpirun -np 4 --host nodo1,nodo2,nodo3,nodo4 ./test_mpi</code></p>
+      <p><code class="mi_code">mpirun -np 4 --host nodo1,nodo2,nodo3,nodo4 ./test_mpi.c</code></p>
     </div>
 
     <div class="w3-third w3-center">
