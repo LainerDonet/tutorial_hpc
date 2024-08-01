@@ -23,17 +23,17 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="#intro" class="w3-bar-item w3-button w3-padding-large w3-white">Introducción</a>
     <a href="#link1" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Comunicación entre los nodos</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Configuración de Slurm</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Procesos en segundo plano de Slurm</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Configuración de MPI</a>
+    <a href="#link2" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Configuración de Slurm</a>
+    <a href="#link3" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Procesos en segundo plano de Slurm</a>
+    <a href="#link4" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Configuración de MPI</a>
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Comunicación entre los nodos</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Configuración de Slurm</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Procesos en segundo plano de Slurm</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Configuración de MPI</a>
+    <a href="#link1" class="w3-bar-item w3-button w3-padding-large">Comunicación entre los nodos</a>
+    <a href="#link2" class="w3-bar-item w3-button w3-padding-large">Configuración de Slurm</a>
+    <a href="#link3" class="w3-bar-item w3-button w3-padding-large">Procesos en segundo plano de Slurm</a>
+    <a href="#link4" class="w3-bar-item w3-button w3-padding-large">Configuración de MPI</a>
   </div>
 </div>
 
@@ -159,20 +159,39 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         <h1> Configuración de Slurm</h1>
         <!-- <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5> -->
         <p class="w3-text-grey">
-          Vamos a examinar algunas de las posibles cuestiones que puedan estar fallando en la ejecución del clúster y malogrando la ejecución de las tareas en paralelo en cada uno de los nodos. Con este propósito lo primero a considerar son las posibles causas.
+          Compruebe que Slurm esté correctamente instalado. Esta operación de comprobación puede realizarla mediante la línea de comando BASH:
+        </p>
+        <p><code class="mi_code">sudo apt list --installed | grep slurm</code></p>
+        <p class="w3-text-grey">
+          Esta línea de comando mostrará el listado de paquetes instalados que pertenecen a Slurm. Si no aparece ningún paquete que tenga esta descripción, realice las siguientes operaciones para instalar Slurm es su sistema.
         </p>
         <p class="w3-text-grey">
-          Puedo prever 4 posibles factores:
+          Añade el repositorio de Slurm son los siguientes comandos:
         </p>
-        <ul class="w3-text-grey">
-          <li>Comunicación entre los nodos.</li>
-          <li>Configuración de Slurm</li>
-          <li>Estado del los procesos en segundo plano de Slurm</li>
-          <li>Configuración de MPI</li>
-        </ul>
+        <p><code class="mi_code">sudo apt install software-properties-common</code></p>
+        <p><code class="mi_code">sudo add-apt-repository ppa:ubuntuhandbook1/slurm</code></p>
+        <p><code class="mi_code">sudo apt update</code></p>
         <p class="w3-text-grey">
-          Con el objetivo de establecer qué no está funcionando correctamente, se implementó este tutorial basado en las cuatro anteriores causas.
+          Luego instala Slurm:
         </p>
+        <p><code class="mi_code">sudo apt install slurm-wlm</code></p>
+        <p class="w3-text-grey">
+          Después de realizar estos pasos puede comprobar el programa, se instaló correctamente y pasar a editar el archivo de configuracion principal de Slurm con:
+        </p>
+        <p><code class="mi_code">sudo nano /etc/slurm-llnl/slurm.conf</code></p>
+        <p class="w3-text-grey">En este archivo podrá configurar los parámetros básicos como: nombre del clúster, los nodos y las particiones.</p>
+        <h5 class="w3-padding-32">Nota:</h5>
+        <p class="w3-text-grey">
+          Entiéndase por particiones, no el concepto de particiones de discos duro o RAIDs o LVM, etc (Sistemas de almacenamiento); sino el concepto que maneja SLURM que no es más que agrupación de nodos.
+        </p>
+        <p class="w3-text-grey">
+          Como Slurm es un servicio que corre en segundo plano, hay que iniciar y habilitar los procesos de Slurm en el nodo principal y en cada uno de los nodos. Con la linea de comando:
+        </p>
+        <p><code class="mi_code">sudo systemctl start slurmctld</code></p>
+        <p><code class="mi_code">sudo systemctl enable slurmctld</code></p>
+        <p><code class="mi_code">sudo systemctl start slurmd</code></p>
+        <p><code class="mi_code">sudo systemctl enable slurmd</code></p>
+        
       </div>
   
       <div class="w3-third w3-center">
@@ -180,6 +199,109 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       </div>
     </div>
   </div>
+
+  <!-- Cuarto Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" id="link3">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-cogs w3-padding-64 w3-text-red w3-margin-right" style="font-size:180px"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Estado del los procesos en segundo plano de Slurm</h1>
+      <!-- <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5> -->
+
+      <p class="w3-text-grey">
+        Para comprobar si Slurm está corriendo en segundo plano en un sistema GNU/Linux, puedes utilizar varios comandos. Aquí te dejo algunos métodos útiles:
+      </p>
+      <p class="w3-text-grey">
+        Usando el comando ps: 
+      </p>
+      <p><code class="mi_code">ps aux | grep slurm</code></p>
+      <p class="w3-text-grey">
+        Este comando te mostrará una lista de procesos que contienen la palabra “slurm”. Busca procesos como <code class="mi_code">slurmctld</code> o <code class="mi_code">slurmd</code>.
+      </p>
+      <p class="w3-text-grey">Comando <code class="mi_code">systemctl</code> (si Slurm está gestionado por systemd):</p>
+      <p><code class="mi_code">sudo systemctl status slurmctld</code></p>
+      <p><code class="mi_code">sudo systemctl status slurmd</code></p>
+    </div>
+  </div>
+</div>
+
+<!-- Quinta Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container" id="link4">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Configuración de MPI</h1>
+      <p class="w3-text-grey">
+        Instalación de OpenMPI en todos los nodos:
+      </p>
+      <p><code class="mi_code">sudo apt install openmpi-bin openmpi-common libopenmpi-dev</code></p>
+      <h5 class="w3-padding-32">Despliegue de MPI</h5>
+      <ol class="w3-text-grey">
+        <li> 
+          Verifica la instalación:
+          <p><code class="mi_code">mpirun --version</code></p>
+        </li>
+        <li>
+          Prueba la comunicación entre nodos:
+          <p><code class="mi_code">mpirun -np 4 --host nodo1,nodo2,nodo3,nodo4 hostname</code></p>
+        </li>
+      </ol>
+      <h5 class="w3-padding-32">Comprobar ejecución</h5>
+      <p class="w3-text-grey">
+        Para comprobar el funcionando del cluster realizarás la tarea de correr un pequeño programa, Hola mundo, programado de C con paradigma de programación en paralelo para comprobar que se esta ejecutado en todos los nodos. 
+      </p>
+      <p class="w3-text-grey">
+        Crea un script de prueba(test_mpi.c):
+      </p>
+      <pre class="script_string">
+<code class="cafe">#include</code><code class="verde">&lt;mpi.h&gt;</code>
+<cod class="cafe">#include</cod><code class="verde">&lt;stdio.h&gt;</code>
+
+<code class="verde">int</code> main(<code class="verde">int</code> argc, char** argv) 
+{
+  <code class="verde">int</code> rank, size;
+   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+   MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+  <code class="verde">printf</code>(<code class="azul">"Hello world from processor %d of %d\n"</code>, world_rank, world_size);
+   MPI_Finalize();
+  <code class="verde">return</code> 0;
+}
+          
+      </pre>
+      <p class="w3-text-grey">
+        Compila y ejecuta el script:
+      </p>
+      <p><code class="mi_code">mpicc -o test_mpi test_mpi.c</code></p>
+      <p><code class="mi_code">mpirun -np 4 --host nodo1,nodo2,nodo3,nodo4 ./test_mpi</code></p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-cubes w3-padding-64 w3-text-red" style="font-size:180px"></i>
+    </div>
+  </div>
+</div>
+<!--Ultimo Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-cog w3-padding-64 w3-text-red w3-margin-right" style="font-size:180px"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Mantenimiento y Monitoreo</h1>
+      <p class="w3-text-grey">
+        Utiliza herramientas como <code class="mi_code">sacct</code> y <code class="mi_code">squeue</code> para monitorear el estado de los trabajos y nodos en el clúster.
+      </p>
+      <p class="w3-text-grey">
+        Mantenimiento Regular: Asegúrate de mantener el software actualizado y realiza pruebas periódicas para garantizar el rendimiento
+        óptimo del clúster.
+      </p>
+      
+    </div>
+  </div>
+</div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
     <h1 class="w3-margin w3-xlarge">Fin del Tutorial</h1>
@@ -195,7 +317,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
  </div>
- <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+ <p>Powered by <a href="https://www.lufac.com" target="_blank">Lainer</a></p>
 </footer>
 
 <script>

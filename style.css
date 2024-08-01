@@ -6,3 +6,38 @@
     padding: 5px;
     font-size: 105%;
   }
+
+  .verde{
+    font-family: Consolas,"courier new";
+    color: green;
+    background-color: #f1f1f1;
+    margin: 2px;
+    padding: 5px;
+    font-size: 105%;
+  }
+  .cafe{
+    font-family: Consolas,"courier new";
+    color: goldenrod;
+    background-color: #f1f1f1;
+    margin: 2px;
+    padding: 5px;
+    font-size: 105%;
+  }
+.script_string{
+  font-family: Consolas,"courier new";
+  color: gray;
+  background-color: #f1f1f1;
+  white-space: pre-wrap; /* Mantiene el formato y ajusta el texto */
+  word-wrap: break-word; /* Permite el ajuste de palabras largas */
+  /* padding: 5px; */
+  font-size: 105%;
+  border-radius: 2px;
+}
+.azul{
+  font-family: Consolas,"courier new";
+    color: blue;
+    background-color: #f1f1f1;
+    margin: 2px;
+    padding: 5px;
+    font-size: 105%;
+}
